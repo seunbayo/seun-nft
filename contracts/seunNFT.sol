@@ -5,14 +5,12 @@ pragma solidity ^0.8.1;
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
 import "hardhat/console.sol";
 
 // We need to import the helper functions from the contract that we copy/pasted.
 import { Base64 } from "./libraries/Base64.sol";
 
-// We inherit the contract we imported. This means we'll have access
-// to the inherited contract's methods.
+// We inherit the contract we imported. This means we'll have access to the inherited contract's methods.
 contract seunNFT is ERC721URIStorage {
 
   // Magic given to us by OpenZeppelin to help us keep track of tokenIds.
@@ -24,12 +22,9 @@ contract seunNFT is ERC721URIStorage {
   string baseSvg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='black' /><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
 
    // I create three arrays, each with their own theme of random words.
-  // Pick some random funny words, names of anime characters, foods you like, whatever! 
   string[] firstWords = ["shikamaru", "Sakura", "Kakashi", "Naruto", "Sasuke", "Madara"];
   string[] secondWords = ["Kawaki", "Boruto", "Jigen", "Shikaku", "Isshhiki", "Amado"];
   string[] thirdWords = ["Jiraya", "Tsunade", "Orochimaru", "Guy", "Garra", "Itachi"];
-
-
 
   // We need to pass the name of our NFTs token and its symbol.
   constructor() ERC721 ("SquareNFT", "SQUARE") {
@@ -71,6 +66,7 @@ contract seunNFT is ERC721URIStorage {
     string memory second = pickRandomSecondWord(newItemId);
     string memory third = pickRandomThirdWord(newItemId);
     string memory combinedWord = string(abi.encodePacked(first, second, third));
+
     string memory finalSvg = string(abi.encodePacked(baseSvg, combinedWord, "</text></svg>"));
 
     // Get all the JSON metadata in place and base64 encode it.
@@ -106,7 +102,7 @@ contract seunNFT is ERC721URIStorage {
     _safeMint(msg.sender, newItemId);
 
      // We'll be setting the tokenURI later!updated token URI
-    _setTokenURI(newItemId, "finalTokenUri");
+    _setTokenURI(newItemId, finalTokenUri);
 
     /* // Set the NFTs data.
     _setTokenURI(newItemId, "data:application/json;base64, ewogICAgIm5hbWUiOiAiQWRlYmF5byIsCiAgICAiZGVzY3JpcHRpb24iOiAiQSBEZXZlbG9wZXIgQWR2b2NhdGUiLAogICAgImltYWdlIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIQnlaWE5sY25abFFYTndaV04wVW1GMGFXODlJbmhOYVc1WlRXbHVJRzFsWlhRaUlIWnBaWGRDYjNnOUlqQWdNQ0F6TlRBZ016VXdJajRLSUNBZ0lEeHpkSGxzWlQ0dVltRnpaU0I3SUdacGJHdzZJSGRvYVhSbE95Qm1iMjUwTFdaaGJXbHNlVG9nYzJWeWFXWTdJR1p2Ym5RdGMybDZaVG9nTVRSd2VEc2dmVHd2YzNSNWJHVStDaUFnSUNBOGNtVmpkQ0IzYVdSMGFEMGlNVEF3SlNJZ2FHVnBaMmgwUFNJeE1EQWxJaUJtYVd4c1BTSmliR0ZqYXlJZ0x6NEtJQ0FnSUR4MFpYaDBJSGc5SWpVd0pTSWdlVDBpTlRBbElpQmpiR0Z6Y3owaVltRnpaU0lnWkc5dGFXNWhiblF0WW1GelpXeHBibVU5SW0xcFpHUnNaU0lnZEdWNGRDMWhibU5vYjNJOUltMXBaR1JzWlNJK1UyVjFibUpoZVc4OEwzUmxlSFErQ2p3dmMzWm5QZz09Igp9Cg==");
